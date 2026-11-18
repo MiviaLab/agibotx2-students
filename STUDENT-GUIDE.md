@@ -59,7 +59,7 @@ is already inside the container.
 
 | Path | Contents |
 |---|---|
-| `~/ESEMPI.md` | guide to the examples: what they do and how to use them (the container's copy of [EXAMPLES.md](EXAMPLES.md)) |
+| `~/EXAMPLES.md` | guide to the examples: what they do and how to use them (the container's copy of [EXAMPLES.md](EXAMPLES.md)) |
 | `~/aimdk` | your copy of the AimDK SDK |
 | `~/aimdk/src/aimdk_msgs` | robot messages and services (⛔ **do not modify**) |
 | `~/aimdk/src/examples` | C++ examples |
@@ -104,7 +104,7 @@ ros2 service call /aimdk_5Fmsgs/srv/PlayTts aimdk_msgs/srv/PlayTts "{tts_req: {t
 ```
 
 What each example does and how to launch it: **[EXAMPLES.md](EXAMPLES.md)** (in the container:
-`~/ESEMPI.md`; open it in VS Code, or with `less ~/ESEMPI.md` in the terminal). More details in
+`~/EXAMPLES.md`; open it in VS Code, or with `less ~/EXAMPLES.md` in the terminal). More details in
 chapters 4.6, 4.7 and 6 of the documentation.
 
 ---
