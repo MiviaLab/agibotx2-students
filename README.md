@@ -43,8 +43,9 @@ robot's system.
 
 - 🔌 [Connecting to the container](STUDENT-GUIDE.md#1-connecting)
 - 🗂️ [What you will find in the container](STUDENT-GUIDE.md#2-what-you-will-find)
-- 📦 [Loading the SDK](STUDENT-GUIDE.md#3-loading-the-sdk)
+- 📦 [The SDK environment](STUDENT-GUIDE.md#3-the-sdk-environment)
 - ✅ [Checking that everything works](STUDENT-GUIDE.md#4-checking-that-everything-works)
+- 🛠️ [Developing your own code (group workspace)](STUDENT-GUIDE.md#5-developing-your-own-code)
 - 📊 [Visualizing data with Foxglove](STUDENT-GUIDE.md#6-visualizing-data-with-foxglove)
 - 🔀 [Robot modes (SD / HO / URS)](EXAMPLES.md#1-robot-modes)
 - 🦾 [Moving the head and arms](EXAMPLES.md#2-moving-the-head-and-arms)
@@ -59,17 +60,38 @@ robot's system.
 # 1. Connect to the MiviaLab Wi-Fi, then:
 ssh -p 2222 studente@10.0.10.201          # password: mivia
 
-# 2. In every new terminal, load the SDK
-source ~/aimdk/install/local_setup.bash
-
-# 3. Check that it works
+# 2. Check that it works (ROS 2 and the AimDK SDK are already loaded in every terminal)
 ros2 topic list
 ros2 run py_examples play_tts             # the robot speaks
 ```
 
 > [!WARNING]
-> 👥 The home folder `/home/studente` is **shared by all students**. Create your own folder
-> (`mkdir ~/<folder_name>`) and do not touch other people's work or the original SDK in `~/aimdk`.
+> 👥 The home folder `/home/studente` is **shared by all students**. Work only in your group's
+> workspace and do not touch other people's work or the original SDK in `~/aimdk`.
+
+---
+
+## 🛠️ Developing your own code
+
+**Every group creates its own ROS 2 workspace** and writes all its code there, as ROS 2 packages
+built on top of the AimDK SDK. Full instructions:
+[STUDENT-GUIDE.md → Developing your own code](STUDENT-GUIDE.md#5-developing-your-own-code).
+
+```bash
+# Once per group: create the workspace and a package (Python; for C++ use ament_cmake + rclcpp)
+mkdir -p ~/<group>_ws/src && cd ~/<group>_ws/src
+ros2 pkg create --build-type ament_python --dependencies rclpy aimdk_msgs --node-name my_node my_package
+
+# Build (always from the workspace root) and run
+cd ~/<group>_ws
+colcon build --symlink-install
+source install/setup.bash                 # after every build and in every new terminal
+ros2 run my_package my_node
+```
+
+> [!NOTE]
+> The AimDK SDK (`~/aimdk`) is sourced automatically in every new terminal; your own workspace
+> is not, because the home folder is shared by all groups.
 
 ---
 

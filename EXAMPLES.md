@@ -8,11 +8,7 @@ ros2 run py_examples <name>     # Python version
 ros2 run examples <name>        # C++ version
 ```
 
-First of all, **in every new terminal**:
-
-```bash
-source ~/aimdk/install/local_setup.bash
-```
+The SDK is loaded automatically in every new terminal: no `source` is needed to run the examples.
 
 ## Safety rules
 
@@ -246,10 +242,8 @@ minutes).
 
 ## Using an example as a starting point
 
-1. Copy the file into your own folder, for example:
-   `cp ~/aimdk/src/py_examples/py_examples/head_control.py ~/<your_folder>/`
-2. Edit it and run it directly with Python:
-   `python3 ~/<your_folder>/head_control.py 0.1`
+Copy the example into a package of your group's ROS 2 workspace, register it and rebuild: see
+[STUDENT-GUIDE.md → Starting from an SDK example](STUDENT-GUIDE.md#4-starting-from-an-sdk-example).
 
 > [!IMPORTANT]
 > ✋ Do not modify the original examples in `~/aimdk`: everyone uses them.
