@@ -1,0 +1,46 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from aimdk_msgs/interface/robot/hds/msg/HdsEventRecord.msg
+// generated code does not contain a copyright notice
+
+
+module aimdk_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "历史事件记录 ID")
+    struct HdsEventRecord {
+      uint64 id;
+
+      @verbatim (language="comment", text=
+        "诊断码")
+      uint64 diag_code;
+
+      @verbatim (language="comment", text=
+        "告警码")
+      string alert_code;
+
+      @verbatim (language="comment", text=
+        "告警部位，当前预留")
+      string alert_location;
+
+      @verbatim (language="comment", text=
+        "首次发生时间戳，单位为纳秒")
+      uint64 first_timestamp;
+
+      @verbatim (language="comment", text=
+        "最近发生时间戳，单位为纳秒")
+      uint64 last_timestamp;
+
+      @verbatim (language="comment", text=
+        "恢复时间戳，单位为纳秒，0 表示未恢复")
+      uint64 recover_timestamp;
+
+      @verbatim (language="comment", text=
+        "持续时长，单位为纳秒")
+      uint64 duration_ns;
+
+      @verbatim (language="comment", text=
+        "是否已恢复")
+      boolean recovered;
+    };
+  };
+};

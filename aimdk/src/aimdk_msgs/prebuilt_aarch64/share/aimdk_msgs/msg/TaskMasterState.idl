@@ -1,0 +1,69 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from aimdk_msgs/interface/robot/task_engine/msg/TaskMasterState.msg
+// generated code does not contain a copyright notice
+
+#include "aimdk_msgs/msg/FixLineIntroState.idl"
+#include "aimdk_msgs/msg/PilotState.idl"
+
+module aimdk_msgs {
+  module msg {
+    module TaskMasterState_Constants {
+      const uint8 TM_MAIN_STATE_IDLE = 0;
+      const uint8 TM_MAIN_STATE_RELOCALIZATION = 1;
+      const uint8 TM_MAIN_STATE_MAPPING = 2;
+      const uint8 TM_MAIN_STATE_FIX_LINE_INTRO = 3;
+      const uint8 TM_MAIN_STATE_RECORDING_PATH = 4;
+      const uint8 TM_MAIN_STATE_PILOT = 5;
+      @verbatim (language="comment", text=
+        "定义(顶层)子状态")
+      const uint8 TM_SUB_STATE_NONE = 0;
+      @verbatim (language="comment", text=
+        "长程任务：运行中")
+      const uint8 TM_SUB_STATE_RESUME = 1;
+      @verbatim (language="comment", text=
+        "长程任务：暂停中")
+      const uint8 TM_SUB_STATE_PAUSE = 2;
+      @verbatim (language="comment", text=
+        "定义SLAM状态")
+      const uint8 SLAM_STATE_IDLE = 0;
+      const uint8 SLAM_STATE_RELOCALIZATION = 1;
+      const uint8 SLAM_STATE_MAPPING = 2;
+      const uint8 SLAM_STATE_LOCALIZATION = 3;
+    };
+    @verbatim (language="comment", text=
+      "定义(顶层)主状态")
+    struct TaskMasterState {
+      @verbatim (language="comment", text=
+        "当前主状态")
+      uint8 main_state;
+
+      @verbatim (language="comment", text=
+        "当前子状态")
+      uint8 sub_state;
+
+      @verbatim (language="comment", text=
+        "当前SLAM状态")
+      uint8 slam_state;
+
+      @verbatim (language="comment", text=
+        "当前定位地图信息：" "\n"
+        "[slam_state]=[SLAM_STATE_LOCALIZATION] 时字段有效")
+      uint64 loc_map_id;
+
+      string loc_map_name;
+
+      @verbatim (language="comment", text=
+        "任意状态，用户预设置任务相关字段，总是有效：" "\n"
+        "[main_state]=[TM_MAIN_STATE_FIX_LINE_INTRO]时，其他相关字段有效")
+      aimdk_msgs::msg::FixLineIntroState fix_line_intro_state;
+
+      @verbatim (language="comment", text=
+        "[main_state]=[TM_MAIN_STATE_PILOT]时字段有效：")
+      aimdk_msgs::msg::PilotState pilot_state;
+
+      @verbatim (language="comment", text=
+        "保留信息")
+      string reserve_info;
+    };
+  };
+};

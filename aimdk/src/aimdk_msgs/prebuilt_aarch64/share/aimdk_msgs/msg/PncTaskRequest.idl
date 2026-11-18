@@ -1,0 +1,109 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from aimdk_msgs/interface/robot/task_engine/msg/PncTaskRequest.msg
+// generated code does not contain a copyright notice
+
+#include "aimdk_msgs/msg/MessageHeader.idl"
+#include "geometry_msgs/msg/Pose2D.idl"
+#include "geometry_msgs/msg/PoseStamped.idl"
+#include "geometry_msgs/msg/Twist.idl"
+
+module aimdk_msgs {
+  module msg {
+    typedef uint8 uint8__64[64];
+    module PncTaskRequest_Constants {
+      @verbatim (language="comment", text=
+        "========== 枚举定义 TASK_TYPE ==========" "\n"        "!!!! 增加枚举请在末尾增加，千万不要中间插入, 不要调换已有的顺序!!!!")
+      const uint8 TASK_TYPE_NONE = 0;
+      const uint8 TASK_TYPE_PLANNING_NAVI_TO_GOAL = 1;
+      const uint8 TASK_TYPE_PLANNING_NAVI_TO_POSE_2D = 2;
+      const uint8 TASK_TYPE_LINEAR_NAVI_TO_RELATIVE = 3;
+      const uint8 TASK_TYPE_LINEAR_NAVI_TO_GOAL = 4;
+      const uint8 TASK_TYPE_LINEAR_NAVI_TO_POSE_2D = 5;
+      const uint8 TASK_TYPE_DIRECT_NAVI_TO_RELATIVE_GOAL = 6;
+      const uint8 TASK_TYPE_DIRECT_NAVI_TO_RELATIVE = 7;
+      const uint8 TASK_TYPE_SPIN_TURN_AND_MOVE_FORWARD = 8;
+      const uint8 TASK_TYPE_SPIN_TURN = 9;
+      const uint8 TASK_TYPE_MOVE_FORWARD = 10;
+      const uint8 TASK_TYPE_PRECISE_NAVI_TO_GOAL = 11;
+      const uint8 TASK_TYPE_NO_MAP_FOLLOW = 12;
+      const uint8 TASK_TYPE_AUTO_EXPLORE = 13;
+      const uint8 TASK_TYPE_VOICE_CONTROL = 14;
+      const uint8 TASK_TYPE_RELATIVE_TARGET_TRACKING = 15;
+      const uint8 TASK_TYPE_PLANNING_NAVI_WITH_RL = 16;
+      const uint8 TASK_TYPE_SWARM_CONTROL_NAVI_MODE = 17;
+      @verbatim (language="comment", text=
+        "========== 枚举定义 TASK_REQUEST =========" "\n"        "!!!! 增加枚举请在末尾增加，千万不要中间插入, 不要调换已有的顺序!!!!")
+      const uint8 TASK_REQUEST_NONE = 0;
+      const uint8 TASK_REQUEST_START = 1;
+      const uint8 TASK_REQUEST_STOP = 2;
+      const uint8 TASK_REQUEST_PAUSE = 3;
+      const uint8 TASK_REQUEST_RESUME = 4;
+      const uint8 TASK_REQUEST_STATUS_INQUIRY = 5;
+      @verbatim (language="comment", text=
+        "========== 枚举定义 PNC_MODE ===============")
+      const uint8 NORMAL = 0;
+      const uint8 NO_PERCEPTION = 1;
+    };
+    @verbatim (language="comment", text=
+      "PncTaskRequest.msg")
+    struct PncTaskRequest {
+      aimdk_msgs::msg::MessageHeader header;
+
+      @verbatim (language="comment", text=
+        "枚举定义 TASK_TYPE")
+      uint8 task_type;
+
+      @verbatim (language="comment", text=
+        "枚举定义 TASK_REQUEST")
+      uint8 task_request;
+
+      @verbatim (language="comment", text=
+        "枚举定义 PNC_MODE")
+      uint8 pnc_mode;
+
+      @verbatim (language="comment", text=
+        "任务ID：区分是导览路线，设定的任务点信息等")
+      uint64 task_id;
+
+      @verbatim (language="comment", text=
+        "地图ID：区分当前使用地图")
+      uint64 map_id;
+
+      @verbatim (language="comment", text=
+        "目标位姿                         # 枚举定义 TASK_STATUS")
+      geometry_msgs::msg::PoseStamped target_pose;
+
+      @verbatim (language="comment", text=
+        "指引线仅考虑<x,y>, target_pose设置为目标姿态(yaw)")
+      sequence<geometry_msgs::msg::Pose2D> reference_line;
+
+      @verbatim (language="comment", text=
+        "目标范围半径, 当 target_pose 被占据时，用于判断该次导航的目标点是否可以到达")
+      double target_pose_radius;
+
+      @verbatim (language="comment", text=
+        "最大运行速度")
+      float max_forward_speed;
+
+      @verbatim (language="comment", text=
+        "群控模式，轨迹的路点位置")
+      sequence<geometry_msgs::msg::Pose2D> trajectory_pos;
+
+      @verbatim (language="comment", text=
+        "群控模式，轨迹的路点速度vx vy wz的填入")
+      sequence<geometry_msgs::msg::Twist> trajectory_vel;
+
+      @verbatim (language="comment", text=
+        "orin板子上启动机器人行走行为树的系统时间戳")
+      uint64 play_timestamp;
+
+      @verbatim (language="comment", text=
+        "群控模式下行走轨迹的时长")
+      uint64 time_duration;
+
+      @verbatim (language="comment", text=
+        "64 byte 保留字段")
+      uint8__64 reserve_info;
+    };
+  };
+};

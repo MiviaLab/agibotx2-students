@@ -1,0 +1,61 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from aimdk_msgs/interface/robot/mc/data/msg/common/McServoStatus.msg
+// generated code does not contain a copyright notice
+
+
+module aimdk_msgs {
+  module msg {
+    module McServoStatus_Constants {
+      @verbatim (language="comment", text=
+        "未到限位")
+      const uint32 BEFORE_LIMIT = 0;
+      @verbatim (language="comment", text=
+        "下蹲到下限")
+      const uint32 LOWER_LIMIT = 1;
+      @verbatim (language="comment", text=
+        "下蹲到上限")
+      const uint32 UPPER_LIMIT = 2;
+    };
+    @verbatim (language="comment", text=
+      "-----------------------------------------------------------------------------------" "\n"
+      "机器人运控状态 - 伺服控制运行状态" "\n"
+      "-----------------------------------------------------------------------------------")
+    struct McServoStatus {
+      @verbatim (language="comment", text=
+        "--------- squat ---------" "\n"
+        "是否处于下蹲状态")
+      boolean squat_enable;
+
+      @verbatim (language="comment", text=
+        "squat range: 0.0 ~ -0.5" "\n"
+        "下蹲高度偏置")
+      double squat_offset;
+
+      @verbatim (language="comment", text=
+        "下蹲上下限位")
+      uint32 squat_limit;
+
+      @verbatim (language="comment", text=
+        "--------- head ---------" "\n"
+        "yaw range: -0.38 ~ 0.38")
+      double head_yaw_offset;
+
+      @verbatim (language="comment", text=
+        "pitch range: -0.35 ~ 0.35")
+      double head_pitch_offset;
+
+      @verbatim (language="comment", text=
+        "--------- waist ---------" "\n"
+        "yaw range: -3.43 ~ 2.382")
+      double waist_yaw_offset;
+
+      @verbatim (language="comment", text=
+        "pitch range: -0.314 ~ 0.314")
+      double waist_pitch_offset;
+
+      @verbatim (language="comment", text=
+        "roll range: -0.488 ~ 0.488")
+      double waist_roll_offset;
+    };
+  };
+};

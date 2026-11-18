@@ -1,0 +1,28 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from aimdk_msgs/interface/robot/mc/motion/McLocomotionSpeedStatus.msg
+// generated code does not contain a copyright notice
+
+#include "aimdk_msgs/msg/McLocomotionSpeedBounds.idl"
+#include "aimdk_msgs/msg/McLocomotionSpeedMode.idl"
+
+module aimdk_msgs {
+  module msg {
+    struct McLocomotionSpeedStatus {
+      @verbatim (language="comment", text=
+        "speed mode")
+      aimdk_msgs::msg::McLocomotionSpeedMode speed_mode;
+
+      @verbatim (language="comment", text=
+        "forward  (+ | front, - | back)")
+      aimdk_msgs::msg::McLocomotionSpeedBounds forward_bounds;
+
+      @verbatim (language="comment", text=
+        "lateral  (+ | left, - | right)")
+      aimdk_msgs::msg::McLocomotionSpeedBounds lateral_bounds;
+
+      @verbatim (language="comment", text=
+        "rotation (+ | left rotation, - | right rotation)")
+      aimdk_msgs::msg::McLocomotionSpeedBounds angular_bounds;
+    };
+  };
+};

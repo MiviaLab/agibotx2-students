@@ -1,0 +1,52 @@
+from setuptools import find_packages, setup
+
+package_name = "py_examples"
+
+setup(
+    name=package_name,
+    version="0.0.0",
+    packages=find_packages(exclude=["test"]),
+    package_data={package_name: ['data/*']},
+    data_files=[
+        ("share/ament_index/resource_index/packages",
+         ["resource/" + package_name]),
+        ("share/" + package_name, ["package.xml"]),
+    ],
+    include_package_data=True,
+    install_requires=["setuptools"],
+    zip_safe=True,
+    maintainer="qyd",
+    maintainer_email="qiuyidong@zhiyuan-robot.com",
+    description="TODO: Package description",
+    license="TODO: License declaration",
+    # tests_require=["pytest"],
+    entry_points={
+        "console_scripts": [
+            "get_mc_action = py_examples.get_mc_action:main",
+            "set_mc_action = py_examples.set_mc_action:main",
+            "preset_motion_client = py_examples.preset_motion_client:main",
+            "head_control = py_examples.head_control:main",
+            "arm_control = py_examples.arm_control:main",
+            "set_mc_input_source = py_examples.set_mc_input_source:main",
+            "hds_diagnostics = py_examples.hds_diagnostics:main",
+            "echo_camera_rgbd = py_examples.echo_camera_rgbd:main",
+            "echo_camera_stereo = py_examples.echo_camera_stereo:main",
+            "echo_camera_head_rear = py_examples.echo_camera_head_rear:main",
+            "echo_lidar_data = py_examples.echo_lidar_data:main",
+            "take_photo = py_examples.take_photo:main",
+            "play_video = py_examples.play_video:main",
+            "play_tts = py_examples.play_tts:main",
+            "play_emoji = py_examples.play_emoji:main",
+            "play_lights = py_examples.play_lights:main",
+            "play_audio = py_examples.play_audio:main",
+            "mic_receiver = py_examples.mic_receiver:main",
+            "mic_raw_receiver = py_examples.mic_raw_receiver:main",
+            "get_mic_source = py_examples.get_mic_source:main",
+            "set_mic_source = py_examples.set_mic_source:main",
+            "play_audio_stream = py_examples.play_audio_stream:main",
+            "echo_head_touch_sensor = py_examples.echo_head_touch_sensor:main",
+            "yolo_detection = py_examples.yolo_detection:main",
+            "audio_transcriber = py_examples.audio_transcriber:main",
+        ],
+    },
+)

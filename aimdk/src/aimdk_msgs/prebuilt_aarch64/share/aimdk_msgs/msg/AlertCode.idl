@@ -1,0 +1,22 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from aimdk_msgs/interface/robot/hds/msg/AlertCode.msg
+// generated code does not contain a copyright notice
+
+
+module aimdk_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "ns 时间辍,单位为纳秒")
+    struct AlertCode {
+      uint64 timestamp;
+
+      @verbatim (language="comment", text=
+        "告警第一次发生的时间戳，单位为纳秒")
+      uint64 first_timestamp;
+
+      @verbatim (language="comment", text=
+        "告警码，字符串形式")
+      string code;
+    };
+  };
+};

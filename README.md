@@ -28,10 +28,16 @@ robot's system.
 
 ## 📚 Contents of this repository
 
-| File | Description |
+| Path | Description |
 |---|---|
 | [STUDENT-GUIDE.md](STUDENT-GUIDE.md) | **Start here.** How to connect (SSH, VS Code Remote-SSH), what is in the container, how to load the SDK, how to check that everything works, and how to view robot data with Foxglove. |
 | [EXAMPLES.md](EXAMPLES.md) | Guide to the AimDK SDK examples: robot control modes, moving the head and arms, cameras and sensors (including YOLO object detection), audio (TTS, microphones, Whisper transcription), display and lights, diagnostics. |
+| [aimdk/](aimdk) | The students' copy of the AgiBot AimDK SDK (ROS 2 workspace): messages, C++ and Python examples. Build output (`build/`, `install/`, `log/`) and the HTML docs are not versioned. |
+| [foxglove/](foxglove) | `run.sh` starts the Foxglove bridge; `pub_urdf.py` publishes the robot's 3D model. |
+
+> [!NOTE]
+> On the robot this repository is mounted directly as the students' home folder (`/home/studente`)
+> in the container: what you see in `~` is this repository.
 
 ### Quick links
 

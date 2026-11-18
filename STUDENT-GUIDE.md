@@ -59,7 +59,8 @@ is already inside the container.
 
 | Path | Contents |
 |---|---|
-| `~/EXAMPLES.md` | guide to the examples: what they do and how to use them (the container's copy of [EXAMPLES.md](EXAMPLES.md)) |
+| `~/README.md`, `~/STUDENT-GUIDE.md`, `~/EXAMPLES.md` | this documentation: your home **is** this repository |
+| `~/EXAMPLES.md` | guide to the examples: what they do and how to use them |
 | `~/aimdk` | your copy of the AimDK SDK |
 | `~/aimdk/src/aimdk_msgs` | robot messages and services (⛔ **do not modify**) |
 | `~/aimdk/src/examples` | C++ examples |
@@ -67,6 +68,7 @@ is already inside the container.
 | `~/aimdk/topics_and_services` | list of available topics and services |
 | `~/aimdk/docs` | local documentation |
 | `~/foxglove` | scripts to visualize robot data with Foxglove (see [section 6](#6-visualizing-data-with-foxglove)) |
+| `/opt/agibot` | read-only copy of the robot's firmware messages and 3D model (used by Foxglove) |
 
 > [!WARNING]
 > 👥 The home folder `/home/studente` is **shared by all** students using this account:

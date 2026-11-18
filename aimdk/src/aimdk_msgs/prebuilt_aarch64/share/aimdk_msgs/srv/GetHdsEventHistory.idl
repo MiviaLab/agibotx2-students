@@ -1,0 +1,39 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from aimdk_msgs/interface/robot/hds/srv/GetHdsEventHistory.srv
+// generated code does not contain a copyright notice
+
+#include "aimdk_msgs/msg/HdsEventQuery.idl"
+#include "aimdk_msgs/msg/HdsEventRecord.idl"
+#include "aimdk_msgs/msg/RequestHeader.idl"
+#include "aimdk_msgs/msg/ResponseHeader.idl"
+
+module aimdk_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "请求头")
+    struct GetHdsEventHistory_Request {
+      aimdk_msgs::msg::RequestHeader header;
+
+      @verbatim (language="comment", text=
+        "过滤条件")
+      aimdk_msgs::msg::HdsEventQuery query;
+    };
+    struct GetHdsEventHistory_Response {
+      @verbatim (language="comment", text=
+        "响应头")
+      aimdk_msgs::msg::ResponseHeader header;
+
+      @verbatim (language="comment", text=
+        "历史事件记录")
+      sequence<aimdk_msgs::msg::HdsEventRecord> records;
+
+      @verbatim (language="comment", text=
+        "满足过滤条件的总记录数")
+      uint32 total_count;
+
+      @verbatim (language="comment", text=
+        "是否还有更多数据")
+      boolean has_more;
+    };
+  };
+};

@@ -1,0 +1,51 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from aimdk_msgs/interface/robot/hds/msg/HdsEventQuery.msg
+// generated code does not contain a copyright notice
+
+
+module aimdk_msgs {
+  module msg {
+    module HdsEventQuery_Constants {
+      const uint8 STATE_ALL = 0;
+      const uint8 STATE_ACTIVE = 1;
+      const uint8 STATE_RECOVERED = 2;
+    };
+    @verbatim (language="comment", text=
+      "起始时间戳，单位为纳秒，0 表示不限制")
+    struct HdsEventQuery {
+      uint64 start_time;
+
+      @verbatim (language="comment", text=
+        "结束时间戳，单位为纳秒，0 表示不限制")
+      uint64 end_time;
+
+      @verbatim (language="comment", text=
+        "按诊断码过滤")
+      sequence<uint64> diag_codes;
+
+      @verbatim (language="comment", text=
+        "按告警码过滤")
+      sequence<string> alert_codes;
+
+      @verbatim (language="comment", text=
+        "按告警部位过滤")
+      sequence<string> alert_locations;
+
+      @verbatim (language="comment", text=
+        "状态过滤")
+      uint8 state;
+
+      @verbatim (language="comment", text=
+        "是否按时间倒序")
+      boolean order_desc;
+
+      @verbatim (language="comment", text=
+        "分页偏移")
+      uint32 offset;
+
+      @verbatim (language="comment", text=
+        "分页条数")
+      uint32 limit;
+    };
+  };
+};

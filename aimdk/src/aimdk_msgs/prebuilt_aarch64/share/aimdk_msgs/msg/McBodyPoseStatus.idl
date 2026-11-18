@@ -1,0 +1,32 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from aimdk_msgs/interface/robot/mc/data/msg/common/McBodyPoseStatus.msg
+// generated code does not contain a copyright notice
+
+
+module aimdk_msgs {
+  module msg {
+    module McBodyPoseStatus_Constants {
+      @verbatim (language="comment", text=
+        "未知")
+      const int32 MC_BODY_POSE_UNKOWN = 0;
+      @verbatim (language="comment", text=
+        "站立")
+      const int32 MC_BODY_POSE_STAND = 1;
+      @verbatim (language="comment", text=
+        "躺")
+      const int32 MC_BODY_POSE_LIE_FACE_UP = 2;
+      @verbatim (language="comment", text=
+        "趴")
+      const int32 MC_BODY_POSE_LIE_FACE_DOWN = 3;
+      @verbatim (language="comment", text=
+        "坐")
+      const int32 MC_BODY_POSE_SIT = 4;
+      @verbatim (language="comment", text=
+        "蹲")
+      const int32 MC_BODY_POSE_SQUAT = 5;
+    };
+    struct McBodyPoseStatus {
+      int32 value;
+    };
+  };
+};

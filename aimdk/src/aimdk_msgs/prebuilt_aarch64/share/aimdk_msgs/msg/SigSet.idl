@@ -1,0 +1,41 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from aimdk_msgs/interface/robot/hds/msg/SigSet.msg
+// generated code does not contain a copyright notice
+
+
+module aimdk_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "SigSet.msg" "\n"
+      "信号集合定义")
+    struct SigSet {
+      @verbatim (language="comment", text=
+        "整机行为后处理信号")
+      int32 robot_sig;
+
+      @verbatim (language="comment", text=
+        "运动行为信号")
+      uint8 motion_sig;
+
+      @verbatim (language="comment", text=
+        "声音行为信号")
+      uint8 sound_sig;
+
+      @verbatim (language="comment", text=
+        "灯行为信号")
+      uint8 led_sig;
+
+      @verbatim (language="comment", text=
+        "表情行为信号")
+      uint8 facial_sig;
+
+      @verbatim (language="comment", text=
+        "预留信号")
+      uint32 reserve;
+
+      @verbatim (language="comment", text=
+        "功能禁用信号")
+      uint64 funcdisable_sig;
+    };
+  };
+};

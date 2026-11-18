@@ -1,0 +1,81 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from aimdk_msgs/interface/robot/task_engine/msg/PncTaskResponse.msg
+// generated code does not contain a copyright notice
+
+#include "aimdk_msgs/msg/MessageHeader.idl"
+
+module aimdk_msgs {
+  module msg {
+    typedef uint8 uint8__64[64];
+    module PncTaskResponse_Constants {
+      @verbatim (language="comment", text=
+        "========== 枚举定义 TASK_TYPE ==========")
+      const uint8 TASK_TYPE_NONE = 0;
+      const uint8 TASK_TYPE_PLANNING_NAVI_TO_GOAL = 1;
+      const uint8 TASK_TYPE_PLANNING_NAVI_TO_POSE_2D = 2;
+      const uint8 TASK_TYPE_LINEAR_NAVI_TO_RELATIVE = 3;
+      const uint8 TASK_TYPE_LINEAR_NAVI_TO_GOAL = 4;
+      const uint8 TASK_TYPE_LINEAR_NAVI_TO_POSE_2D = 5;
+      const uint8 TASK_TYPE_DIRECT_NAVI_TO_RELATIVE_GOAL = 6;
+      const uint8 TASK_TYPE_DIRECT_NAVI_TO_RELATIVE = 7;
+      const uint8 TASK_TYPE_SPIN_TURN_AND_MOVE_FORWARD = 8;
+      const uint8 TASK_TYPE_SPIN_TURN = 9;
+      const uint8 TASK_TYPE_MOVE_FORWARD = 10;
+      const uint8 TASK_TYPE_PRECISE_NAVI_TO_GOAL = 11;
+      const uint8 TASK_TYPE_NO_MAP_FOLLOW = 12;
+      const uint8 TASK_TYPE_AUTO_EXPLORE = 13;
+      const uint8 TASK_TYPE_VOICE_CONTROL = 14;
+      const uint8 TASK_TYPE_RELATIVE_TARGET_TRACKING = 15;
+      const uint8 TASK_TYPE_PLANNING_NAVI_WITH_RL = 16;
+      @verbatim (language="comment", text=
+        "========== 枚举定义 TASK_STATUS =========" "\n"        "refs: https://agirobot.feishu.cn/wiki/MY9mwPTCVi19Q4kfCQtcAv69nub?larkTabName=space")
+      const uint8 TASK_STATUS_UNKONW = 0;
+      const uint8 TASK_STATUS_RUNNING = 1;
+      const uint8 TASK_STATUS_FAILED = 2;
+      const uint8 TASK_STATUS_PAUSED = 3;
+      const uint8 TASK_STATUS_FINISHED = 4;
+      const uint8 TASK_STATUS_UNKNOW_BLOCK = 10;
+      const uint8 TASK_STATUS_SPIN_BLOCK = 11;
+      const uint8 TASK_STATUS_TRAJ_COLLISION_BLOCK = 12;
+      const uint8 TASK_STATUS_CONTOLLER_COLLISION_BLOCK = 13;
+      const uint8 TASK_STATUS_SPIN_BLOCK_WITH_HUMAN = 14;
+      const uint8 TASK_STATUS_TRAJ_COLLISION_BLOCK_WITH_HUMAN = 15;
+      const uint8 TASK_STATUS_CONTOLLER_COLLISION_BLOCK_WITH_HUMAN = 16;
+      const uint8 TASK_STATUS_LOCAL_OPTIMAL_FAILED = 17;
+      const uint8 TASK_STATUS_GOBAL_PATH_BLOCK = 18;
+      const uint8 TASK_STATUS_RECOVERY_GLOBAL = 20;
+      const uint8 TASK_STATUS_RECOVERY_LOCAL = 21;
+      const uint8 TASK_STATUS_RECOVERY_TIMEOUT = 22;
+      const uint8 TASK_STATUS_EXPLORE_TO_RECOVERY = 23;
+      const uint8 TASK_STATUS_EXPLORE_SUCCESS = 24;
+      const uint8 TASK_STATUS_EXPLORE_FAILED = 25;
+      const uint8 TASK_STATUS_GOAL_BLOCK_CONTINUE = 30;
+      const uint8 TASK_STATUS_GOAL_BLOCK_ABORT = 31;
+    };
+    @verbatim (language="comment", text=
+      "PncTaskResponse.msg")
+    struct PncTaskResponse {
+      aimdk_msgs::msg::MessageHeader header;
+
+      @verbatim (language="comment", text=
+        "枚举定义 TASK_TYPE")
+      uint8 task_type;
+
+      @verbatim (language="comment", text=
+        "同 header.sequence, 描述唯一的某一任务指令(在同一任务的TASK_STATUS中，task_id相同)")
+      uint64 task_id;
+
+      @verbatim (language="comment", text=
+        "地图ID：区分当前使用地图")
+      uint64 map_id;
+
+      @verbatim (language="comment", text=
+        "枚举定义 TASK_STATUS")
+      uint8 task_status;
+
+      @verbatim (language="comment", text=
+        "64 byte 保留字段")
+      uint8__64 reserve_info;
+    };
+  };
+};

@@ -1,0 +1,46 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from aimdk_msgs/interface/robot/mc/motion/srv/GetMcLocomotionSpeedStatus.srv
+// generated code does not contain a copyright notice
+
+#include "aimdk_msgs/msg/CommonRequest.idl"
+#include "aimdk_msgs/msg/McLocomotionSpeedStatus.idl"
+#include "aimdk_msgs/msg/ResponseHeader.idl"
+
+module aimdk_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "Request 部分")
+    struct GetMcLocomotionSpeedStatus_Request {
+      aimdk_msgs::msg::CommonRequest request;
+    };
+    struct GetMcLocomotionSpeedStatus_Response {
+      @verbatim (language="comment", text=
+        "响应头")
+      aimdk_msgs::msg::ResponseHeader header;
+
+      @verbatim (language="comment", text=
+        "current speed mode and speed bounds")
+      aimdk_msgs::msg::McLocomotionSpeedStatus current_speed_status;
+
+      @verbatim (language="comment", text=
+        "none")
+      aimdk_msgs::msg::McLocomotionSpeedStatus none_speed_status;
+
+      @verbatim (language="comment", text=
+        "low")
+      aimdk_msgs::msg::McLocomotionSpeedStatus low_speed_status;
+
+      @verbatim (language="comment", text=
+        "medium")
+      aimdk_msgs::msg::McLocomotionSpeedStatus medium_speed_status;
+
+      @verbatim (language="comment", text=
+        "high")
+      aimdk_msgs::msg::McLocomotionSpeedStatus high_speed_status;
+
+      @verbatim (language="comment", text=
+        "locomotion_step")
+      aimdk_msgs::msg::McLocomotionSpeedStatus step_speed_status;
+    };
+  };
+};

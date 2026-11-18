@@ -1,0 +1,41 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from aimdk_msgs/interface/robot/app_proxy/srv/GroupControlTimeSync.srv
+// generated code does not contain a copyright notice
+
+#include "aimdk_msgs/msg/CommonRequest.idl"
+#include "aimdk_msgs/msg/CommonResponse.idl"
+#include "aimdk_msgs/msg/SlaveDevice.idl"
+
+module aimdk_msgs {
+  module srv {
+    @verbatim (language="comment", text=
+      "--------------------------------------------------------------------------------------------------------------" "\n"
+      "群控时间同步" "\n"
+      "--------------------------------------------------------------------------------------------------------------")
+    struct GroupControlTimeSync_Request {
+      @verbatim (language="comment", text=
+        "----------------------------------------------------" "\n"
+        "请求头")
+      aimdk_msgs::msg::CommonRequest header;
+
+      @verbatim (language="comment", text=
+        "----------------------------------------------------" "\n"
+        "群控从节点")
+      sequence<aimdk_msgs::msg::SlaveDevice> slaves;
+    };
+    @verbatim (language="comment", text=
+      "----------------------------------------------------" "\n"
+      "响应头")
+    struct GroupControlTimeSync_Response {
+      aimdk_msgs::msg::CommonResponse header;
+
+      @verbatim (language="comment", text=
+        "错误码")
+      int32 error_code;
+
+      @verbatim (language="comment", text=
+        "错误信息")
+      string error_msg;
+    };
+  };
+};
