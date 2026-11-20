@@ -14,19 +14,25 @@ Usage:
 The program switches the MC mode by itself:
   1. STAND_DEFAULT
   2. UPPERBODY_REMOTE_SPLIT
-  3. sends the arm command until Ctrl+C
-  4. STAND_DEFAULT
+  3. moves the arms from their current position to the targets at most at
+     MAX_SPEED, then keeps sending the targets until Ctrl+C
+  4. on Ctrl+C brings the arms back to the starting position at MAX_SPEED
+     (a second Ctrl+C skips it)
+  5. STAND_DEFAULT
 """
 
+import signal
 import sys
 import time
 
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
 from rclpy.signals import SignalHandlerOptions
 
-from aimdk_msgs.msg import (CommonState, McActionCommand, MessageHeader,
-                            RequestHeader, UpperBodyCommandArray)
+from aimdk_msgs.msg import (CommonState, JointStateArray, McActionCommand,
+                            MessageHeader, RequestHeader,
+                            UpperBodyCommandArray)
 from aimdk_msgs.srv import SetMcAction
 
 # Arm joint names, in arm_pos order (left 0-6, right 7-13)
@@ -45,6 +51,8 @@ ARM_LIMITS = [
 ]
 # Publish period (s) -> 50 Hz
 PERIOD = 0.02
+# Maximum joint speed while moving to the targets (rad/s): lower = slower
+MAX_SPEED = 0.7
 # Pause after each mode switch, to let MC complete the transition (s)
 MODE_SETTLE = 1.0
 
@@ -61,12 +69,21 @@ class ArmControlNode(Node):
             self.arm_pos.append(target)
         self.pub = self.create_publisher(
             UpperBodyCommandArray, '/mc/upper_body_command', 10)
+        # Current arm position, to start the movement from where the arms are
+        self.current_pos = None
+        self.create_subscription(
+            JointStateArray, '/aima/hal/joint/arm/state',
+            self.arm_state_callback, qos_profile_sensor_data)
+        # Position sent at each step, moved towards arm_pos at MAX_SPEED
+        self.cmd_pos = None
         self.mode_client = self.create_client(
             SetMcAction, '/aimdk_5Fmsgs/srv/SetMcAction')
         while not self.mode_client.wait_for_service(timeout_sec=2.0):
             self.get_logger().info('⏳ Service unavailable, waiting...')
         self.timer = None
         self._seq = 0
+        # Number of Ctrl+C pressed (see main)
+        self.interrupts = 0
 
     def set_mode(self, action_name: str) -> bool:
         req = SetMcAction.Request()
@@ -99,11 +116,42 @@ class ArmControlNode(Node):
         time.sleep(MODE_SETTLE)
         return True
 
-    def start(self):
+    def arm_state_callback(self, msg: JointStateArray):
+        # Joint names in the state end with "_joint" (e.g. left_elbow_joint)
+        positions = {j.name: j.position for j in msg.joints}
+        try:
+            self.current_pos = [positions[f'{name}_joint'] for name in ARM_JOINTS]
+        except KeyError:
+            pass
+
+    def start(self) -> bool:
+        # Wait for the current arm position (at most 5 s)
+        deadline = time.time() + 5.0
+        while self.current_pos is None and time.time() < deadline:
+            rclpy.spin_once(self, timeout_sec=0.1)
+        if self.current_pos is None:
+            self.get_logger().error(
+                '❌ No arm position on /aima/hal/joint/arm/state')
+            return False
+        self.cmd_pos = list(self.current_pos)
+        self.start_pos = list(self.current_pos)
+        duration =max(abs(t - c) for t, c in zip(self.arm_pos, self.cmd_pos)) / MAX_SPEED
         self.timer = self.create_timer(PERIOD, self.publish)
         self.get_logger().info(
             f'left arm={self.arm_pos[:7]}  right arm={self.arm_pos[7:]}  '
-            f'(Ctrl+C to stop)')
+            f'(about {duration:.1f} s at {MAX_SPEED} rad/s, Ctrl+C to stop)')
+        return True
+
+    def return_to_start(self):
+        """Bring the arms back to the starting position at MAX_SPEED."""
+        if self.cmd_pos is None:
+            return
+        self.arm_pos = self.start_pos
+        self.get_logger().info('↩️ Returning to the starting position...')
+        # a second Ctrl+C skips the slow return
+        while self.cmd_pos != self.arm_pos and self.interrupts < 2:
+            self.publish()
+            time.sleep(PERIOD)
 
     def publish(self):
         msg = UpperBodyCommandArray()
@@ -120,7 +168,11 @@ class ArmControlNode(Node):
         # The head is ignored in this mode.
         msg.hand_sub_mode = UpperBodyCommandArray.HAND_CLAW_OPEN_CLOSE
         msg.head_pos = [0.0, 0.0]
-        msg.arm_pos = self.arm_pos
+        # Move each joint towards its target by at most MAX_SPEED * PERIOD
+        step = MAX_SPEED * PERIOD
+        self.cmd_pos = [c + max(-step, min(step, t - c))
+                        for c, t in zip(self.cmd_pos, self.arm_pos)]
+        msg.arm_pos = self.cmd_pos
         msg.hand_pos = [0.0, 0.0]
         self.pub.publish(msg)
 
@@ -141,16 +193,24 @@ def main(args=None):
     # Ctrl+C handled here, so STAND_DEFAULT can still be set on exit
     rclpy.init(args=args, signal_handler_options=SignalHandlerOptions.NO)
     node = ArmControlNode(arm_pos)
+
+    # Ctrl+C only counts the presses, it does not raise KeyboardInterrupt: an
+    # exception raised inside the ROS executor (e.g. while it reads a message)
+    # can leave it unable to call the SetMcAction service afterwards.
+    def on_ctrl_c(signum, frame):
+        node.interrupts += 1
+
+    signal.signal(signal.SIGINT, on_ctrl_c)
     try:
         if (node.set_mode('STAND_DEFAULT')
-                and node.set_mode('UPPERBODY_REMOTE_SPLIT')):
-            node.start()
-            rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
+                and node.set_mode('UPPERBODY_REMOTE_SPLIT')
+                and node.start()):
+            while node.interrupts == 0:
+                rclpy.spin_once(node, timeout_sec=0.1)
     finally:
         if node.timer:
             node.destroy_timer(node.timer)
+        node.return_to_start()
         node.set_mode('STAND_DEFAULT')
         node.destroy_node()
         if rclpy.ok():

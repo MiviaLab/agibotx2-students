@@ -113,12 +113,21 @@ ros2 run py_examples arm_control 0.39 0 0 -1.17 0 0 0  0.39 0 0 -1.17 0 0 0
   list of joints with their limits.
 - The example line above is the normal standing arm position: start from there and change
   **one value at a time**, by a small amount.
-- Sequence: `STAND_DEFAULT` → `UPPERBODY_REMOTE_SPLIT` → holds the position until you press
-  `Ctrl+C` → `STAND_DEFAULT` (the arms return to the normal position).
+- Sequence: `STAND_DEFAULT` → `UPPERBODY_REMOTE_SPLIT` → moves the arms to the position and
+  holds it until you press `Ctrl+C` → brings the arms back to where they started → `STAND_DEFAULT`.
+- **Speed**: the arms do not jump to the target. The program reads the current arm position
+  (topic `/aima/hal/joint/arm/state`) and moves every joint towards its target at most at
+  `MAX_SPEED` rad/s (constant at the top of `arm_control.py`): the startup message says how
+  long the movement takes. The return after `Ctrl+C` uses the same speed; a **second**
+  `Ctrl+C` skips the slow return. The robot has no speed setting: the speed is given by how
+  fast the program moves the commanded position, 50 times per second.
+- In your copy of the example, a lower `MAX_SPEED` means a slower movement. After changing it,
+  rebuild your package (`colcon build`): `ros2 run` uses the built copy, not the source file.
 
 > [!WARNING]
-> 🦾 Change **one joint at a time, by small amounts**. Large jumps between positions produce fast,
-> wide arm movements.
+> 🦾 Change **one joint at a time, by small amounts**, and keep `MAX_SPEED` low. The switch to
+> `STAND_DEFAULT` at the start is done by the robot at its own speed: if the arms are far from the
+> normal position, that movement is fast.
 
 ### `preset_motion_client` — predefined arm gestures
 
@@ -212,9 +221,43 @@ Speak close to the robot's head. For each detected sentence it:
 > [!WARNING]
 > 🗑️ The `.wav` folder **is deleted when you close the program**. Copy anything you want to keep before pressing `Ctrl+C`.
 
-Parameters: `-p language:=en` for another language (default `it`), `-p model:=base` for a faster
-but less accurate model (default `small`). The first time, the model is downloaded (a few
-minutes).
+Whisper (`openai/whisper-large-v3-turbo`) runs as an ONNX model with ONNX Runtime on the GPU
+(TensorRT, fp16): about 0.6 s per sentence. Before Whisper, Silero VAD checks that the sentence
+really contains speech.
+
+Parameters: `-p language:=en` for another language (default `it`), `-p vad_threshold:=0.5` for a
+lower VAD threshold (default `0.7`), `-p provider:=cuda` to use CUDA instead of TensorRT (slower).
+The model is already prepared in `~/aimdk/models/whisper/whisper-large-v3-turbo-onnx/`, and starting
+takes about 20 s. If that folder is missing, **the first start is long** (about 10 minutes): the
+model is downloaded, exported to ONNX and TensorRT builds the engines for the GPU (`trt_cache/`).
+
+> [!WARNING]
+> ⛔ Do not `pip install onnxruntime` (or packages that depend on it) in your home: it is the CPU-only
+> version and it would hide the GPU version installed in the container.
+
+### `italian_piper_tts` — the robot speaks Italian with Piper (Python only)
+
+```bash
+# Terminal 1: start the node and wait for "Modello pronto"
+ros2 run py_examples italian_piper_tts
+# Terminal 2: send the sentence to say
+ros2 topic pub --once /italian_tts/say std_msgs/msg/String "{data: 'Ciao, sono il robot del laboratorio'}"
+```
+
+The node stays running and waits for text on the `/italian_tts/say` topic: every sentence
+published there (from the terminal or from your own node, as a `std_msgs/String`) is synthesized
+with Piper (Italian voice `it_IT-paola`) and played through the robot's speaker. After
+"Modello pronto" nothing else is printed until a sentence arrives.
+
+For each sentence it:
+
+1. synthesizes the audio with Piper and converts it to 16 kHz mono, the format the robot plays;
+2. requests the audio focus (`RequestAudioFocus`), so the robot plays our audio;
+3. publishes the audio on `/aima/hal/audio/playback` in 0.1 s chunks, following the clock;
+4. releases the audio focus (`AbandonAudioFocus`) at the end of the sentence.
+
+Parameter: `-p model_path:=<file .onnx>` for another Piper voice (default
+`~/aimdk/models/piper/it_IT-paola-medium.onnx`).
 
 ---
 

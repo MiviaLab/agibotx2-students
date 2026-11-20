@@ -47,6 +47,7 @@ setup(
             "echo_head_touch_sensor = py_examples.echo_head_touch_sensor:main",
             "yolo_detection = py_examples.yolo_detection:main",
             "audio_transcriber = py_examples.audio_transcriber:main",
+            'italian_piper_tts = py_examples.italian_piper_tts:main',
         ],
     },
 )

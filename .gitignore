@@ -24,3 +24,7 @@ __pycache__/
 # Output of the examples
 images/
 audio_recordings/
+
+# Whisper ONNX model (~4 GB, files over GitHub's 100 MB limit) and TensorRT engines (built for
+# this GPU): created by audio_transcriber on its first start
+/aimdk/models/whisper/
