@@ -108,7 +108,7 @@ class ItalianPiperTtsNode(Node):
         if not text:
             return
 
-        self.get_logger().info(f'Audio Transcription: "{text}"')
+        self.get_logger().info(f'Received Test: "{text}"')
         pcm_bytes = self.synthesize_pcm(text)
         if not pcm_bytes:
             return
