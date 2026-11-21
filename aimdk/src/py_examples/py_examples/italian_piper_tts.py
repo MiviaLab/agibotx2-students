@@ -25,14 +25,14 @@ class ItalianPiperTtsNode(Node):
         self.declare_parameter('model_path', default_model)
         model_path = self.get_parameter('model_path').value
 
-        self.get_logger().info(f'Caricamento modello Piper: {model_path}...')
+        self.get_logger().info(f'Loading Piper model: {model_path}...')
         self.voice = PiperVoice.load(model_path)
         self.model_rate = self.voice.config.sample_rate
         # The robot plays at 16 kHz mono: resample here instead of in hal_audio
         self.sample_rate = 16000
         self.channels = 1
         self.get_logger().info(
-            f'Modello pronto ({self.model_rate} Hz -> {self.sample_rate} Hz)')
+            f'Model Ready ({self.model_rate} Hz -> {self.sample_rate} Hz)')
 
         self.pkg_name = 'italian_piper_tts'
         self.priority = 5
